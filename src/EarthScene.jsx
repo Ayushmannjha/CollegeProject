@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useNavigate } from "react-router-dom";
-import "./earthScene.css"; 
+import "./earthScene.css";
+
 import MovingStars from "./MovingStars";
 import RotatingSphere from "./RotatingSphere";
-import LocationPin from "./LocationPin";
-import soundFile from './assets/openai-fm-ash-dramatic.wav';
+
+import soundFile from './assets/openai-fm-ash-dramatic.mp3';
 
 const EarthScene = () => {
-  const navigate = useNavigate();
   const [started, setStarted] = useState(false);
-  const [redirected, setRedirected] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const audioRef = useRef(null);
 
   // Play music when the scene starts
- useEffect(() => {
+  useEffect(() => {
     if (started && !audioRef.current) {
       const audio = new Audio(soundFile);
       audio.loop = true;
@@ -25,17 +23,6 @@ const EarthScene = () => {
       audio.play().catch((err) => console.warn("Autoplay failed:", err));
     }
   }, [started]);
-
-  // Trigger fade out and navigate to /india
-  const handleDone = () => {
-    if (!redirected) {
-      setFadeOut(true);
-      setTimeout(() => {
-        setRedirected(true);
-        navigate("/india");
-      }, 1000);
-    }
-  };
 
   return (
     <div
@@ -70,9 +57,19 @@ const EarthScene = () => {
           <ambientLight intensity={0.4} />
           <directionalLight position={[2, 2, 2]} intensity={9} color={0x9cdba6} />
           <MovingStars />
-          <RotatingSphere onDone={handleDone} />
-          <LocationPin lat={28.6139} lon={77.209} radius={1.01} />
-          <OrbitControls enableZoom={false} enablePan={false} />
+          <RotatingSphere />
+         
+          {/* OrbitControls enabled for touch and drag/zoom */}
+          <OrbitControls
+  enableZoom={true}
+  enableRotate={true}
+  enablePan={false}
+  rotateSpeed={0.5}
+  zoomSpeed={0.6}
+  maxPolarAngle={Math.PI}
+  minPolarAngle={0}
+/>
+
         </Canvas>
       )}
     </div>
