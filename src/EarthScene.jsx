@@ -6,7 +6,8 @@ import "./earthScene.css";
 import MovingStars from "./MovingStars";
 import RotatingSphere from "./RotatingSphere";
 import LocationPin from "./LocationPin";
-import 8kEarth from "./assets/images/8k_earth_daymap.jpg"
+import soundFile from './assets/openai-fm-ash-dramatic.wav';
+
 const EarthScene = () => {
   const navigate = useNavigate();
   const [started, setStarted] = useState(false);
@@ -15,9 +16,9 @@ const EarthScene = () => {
   const audioRef = useRef(null);
 
   // Play music when the scene starts
-  useEffect(() => {
+ useEffect(() => {
     if (started && !audioRef.current) {
-      const audio = new Audio("");
+      const audio = new Audio(soundFile);
       audio.loop = true;
       audio.volume = 0.8;
       audioRef.current = audio;

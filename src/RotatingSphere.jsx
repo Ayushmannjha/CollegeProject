@@ -4,7 +4,7 @@ import * as THREE from "three";
 import kEarth from "./assets/images/8k_earth_daymap.jpg"
 const RotatingSphere = ({ onDone }) => {
   const meshRef = useRef();
-  const texture = useLoader(THREE.TextureLoader, {kEarth});
+  const texture = useLoader(THREE.TextureLoader, kEarth);
   const [startTime] = useState(Date.now());
   const { camera } = useThree();
 
