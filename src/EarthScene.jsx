@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import "./earthScene.css";
-
-import MovingStars from "./MovingStars";
+import CenterExplosion from "./CentralExplosion";
 import RotatingSphere from "./RotatingSphere";
+import MovingStars from "./MovingStars";
 
 import soundFile from './assets/openai-fm-ash-dramatic.mp3';
 
 const EarthScene = () => {
   const [started, setStarted] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [showExplosion, setShowExplosion] = useState(false);
   const audioRef = useRef(null);
 
-  // Play music when the scene starts
+  // Play music when scene starts
   useEffect(() => {
     if (started && !audioRef.current) {
       const audio = new Audio(soundFile);
@@ -24,13 +24,26 @@ const EarthScene = () => {
     }
   }, [started]);
 
+  // Trigger explosion after 30 seconds of starting
+  useEffect(() => {
+    if (!started) return;
+
+    const timer = setTimeout(() => {
+      setShowExplosion(true);
+
+      // Hide explosion after 3 seconds (optional)
+     // setTimeout(() => setShowExplosion(false), 3000);
+    }, 30000);
+
+    return () => clearTimeout(timer);
+  }, [started]);
+
   return (
     <div
       className={`fade-wrapper ${fadeOut ? "fade-out" : ""}`}
       style={{ position: "relative", width: "100vw", height: "100vh" }}
     >
       {!started ? (
-        // Start Button Only
         <button
           onClick={() => setStarted(true)}
           style={{
@@ -51,26 +64,28 @@ const EarthScene = () => {
           Start
         </button>
       ) : (
-        // Full Earth Scene
-        <Canvas style={{ height: "100%", width: "100%" }}>
-          <color attach="background" args={["#0d0d0c"]} />
-          <ambientLight intensity={0.4} />
-          <directionalLight position={[2, 2, 2]} intensity={9} color={0x9cdba6} />
-          <MovingStars />
-          <RotatingSphere />
-         
-          {/* OrbitControls enabled for touch and drag/zoom */}
-          <OrbitControls
-  enableZoom={true}
-  enableRotate={true}
-  enablePan={false}
-  rotateSpeed={0.5}
-  zoomSpeed={0.6}
-  maxPolarAngle={Math.PI}
-  minPolarAngle={0}
-/>
+        <>
+          <Canvas style={{ height: "100%", width: "100%" }}>
+            <color attach="background" args={["#0d0d0c"]} />
+            <ambientLight intensity={0.4} />
+            <directionalLight position={[2, 2, 2]} intensity={9} color={0x9cdba6} />
+            <MovingStars />
+            <RotatingSphere />
 
-        </Canvas>
+            <OrbitControls
+              enableZoom={true}
+              enableRotate={true}
+              enablePan={false}
+              rotateSpeed={0.5}
+              zoomSpeed={0.6}
+              maxPolarAngle={Math.PI}
+              minPolarAngle={0}
+            />
+          </Canvas>
+
+          {/* Explosion overlay */}
+          {showExplosion && <CenterExplosion />}
+        </>
       )}
     </div>
   );

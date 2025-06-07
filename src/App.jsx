@@ -1,10 +1,21 @@
-import React from 'react';
-import './App.css';
-import HelloWorld from './HelloWorld';
-import EarthScene from './EarthScene';
+// App.jsx
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import EarthScene from "./EarthScene";
+import CenterExplosion from "./CentralExplosion";
 
 function App() {
-  return <EarthScene />;
+ return (
+  <>
+    
+
+    <Routes>
+      <Route path="/" element={<EarthScene />} />
+       <Route path="/Cen" element={<CenterExplosion />} />
+    </Routes>
+  </>
+);
+
 }
 
 export default App;

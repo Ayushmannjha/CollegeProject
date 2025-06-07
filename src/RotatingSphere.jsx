@@ -1,7 +1,7 @@
 import React, { useRef, useState, useMemo } from "react";
 import { useLoader, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import kEarth from "./assets/images/8k_earth_daymap.jpg"
+import kEarth from "./assets/images/1_earth_16k.jpg"
 const RotatingSphere = ({ onDone }) => {
   const meshRef = useRef();
   const texture = useLoader(THREE.TextureLoader, kEarth);
@@ -26,13 +26,14 @@ const RotatingSphere = ({ onDone }) => {
 
     const elapsed = (Date.now() - startTime) / 1000;
 
-    let targetScale = elapsed < 13 ? 0.001 : elapsed < 20 ? 0.5 : 2.0;
+    let targetScale = elapsed < 12.7 ? 0.001 : elapsed < 20 ? 0.5 : 2.0;
     const currentScale = mesh.scale.x;
     const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.02);
     mesh.scale.set(newScale, newScale, newScale);
 
-    if (elapsed < 17.7) {
-      mesh.rotation.y += 0.01;
+    if (elapsed < 19.9) {
+      mesh.rotation.y += 0.03;
+     
     } else {
       mesh.rotation.set(9.8, -0.2, 3.1);
       onDone?.();
