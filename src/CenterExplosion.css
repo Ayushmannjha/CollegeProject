@@ -1,3 +1,4 @@
+/* Reset */
 body {
   margin: 0;
   padding: 0;
@@ -10,42 +11,78 @@ body {
   left: 50%;
   width: 0;
   height: 0;
-  pointer-events: none;
   transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 100;
 }
 
 /* Box Styles */
 .box {
-  width: clamp(100px, 12vw, 120px);
-  height: clamp(100px, 12vw, 120px);
+  width: clamp(170px, 12vw, 120px);
+  height: clamp(170px, 12vw, 120px);
   position: absolute;
-  transition: transform 1s ease;
+  transition: transform 1s ease, opacity 0.5s ease, width 1s ease, height 1s ease;
   border-radius: 0.5rem;
   top: 0;
   left: 0;
+  pointer-events: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
-/* Colored Boxes */
+/* Colored Backgrounds (optional if using images only) */
 .red    { background-color: #ff4d4d02; }
 .blue   { background-color: #4d7aff09; }
 .green  { background-color: #4dff8800; }
 .yellow { background-color: #ffe06609; }
 
-/* Adjusted explosion transforms - now perfectly centered */
+/* Explosion directions */
 .top-left {
   transform: translate(calc(-30vw - 50%), calc(-30vh - 50%));
 }
-
 .top-right {
   transform: translate(calc(30vw - 50%), calc(-30vh - 50%));
 }
-
 .bottom-left {
   transform: translate(calc(-30vw - 50%), calc(30vh - 50%));
 }
-
 .bottom-right {
   transform: translate(calc(30vw - 50%), calc(30vh - 50%));
+}
+
+/* Zoomed-in box for video */
+.centered-box {
+  width: 60vw !important;
+  height: 60vh !important;
+  transform: translate(-50%, -50%) !important;
+  top: 50% !important;
+  left: 50% !important;
+  z-index: 200;
+  position: absolute;
+}
+
+/* Hide other boxes */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.5);
+}
+
+/* ❌ Close button */
+.close-btn {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: white;
+  color: black;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 50%;
+  z-index: 300;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Optional tweak for smaller screens */
@@ -53,16 +90,18 @@ body {
   .top-left {
     transform: translate(calc(-25vw - 50%), calc(-25vh - 50%));
   }
-
   .top-right {
     transform: translate(calc(25vw - 50%), calc(-25vh - 50%));
   }
-
   .bottom-left {
     transform: translate(calc(-25vw - 50%), calc(25vh - 50%));
   }
-
   .bottom-right {
     transform: translate(calc(25vw - 50%), calc(25vh - 50%));
+  }
+
+  .centered-box {
+    width: 90vw !important;
+    height: 50vh !important;
   }
 }

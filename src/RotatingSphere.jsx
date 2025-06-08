@@ -1,12 +1,16 @@
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useEffect } from "react";
 import { useLoader, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import kEarth from "./assets/images/1_earth_16k.jpg"
+import kEarth from "./assets/images/1_earth_16k.jpg";
+import zoomSoundSrc from "./assets/sounds/zoom-sound-effect-125029.mp3"; // Your sound file
+
 const RotatingSphere = ({ onDone }) => {
   const meshRef = useRef();
   const texture = useLoader(THREE.TextureLoader, kEarth);
   const [startTime] = useState(Date.now());
   const { camera } = useThree();
+  const audioRef = useRef(null);
+  const [playedAudio, setPlayedAudio] = useState(false);
 
   const targetLat = 28.6139;
   const targetLon = 77.209;
@@ -20,6 +24,12 @@ const RotatingSphere = ({ onDone }) => {
     return new THREE.Vector3(x, y, z).normalize().multiplyScalar(1.05);
   }, []);
 
+  // Load audio once
+  useEffect(() => {
+    audioRef.current = new Audio(zoomSoundSrc);
+    audioRef.current.volume = 0.7;
+  }, []);
+
   useFrame(() => {
     const mesh = meshRef.current;
     if (!mesh) return;
@@ -31,9 +41,14 @@ const RotatingSphere = ({ onDone }) => {
     const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.02);
     mesh.scale.set(newScale, newScale, newScale);
 
+    // Play sound during zoom
+    if (elapsed > 20 && !playedAudio && audioRef.current) {
+      audioRef.current.play().catch((err) => console.warn("Audio play failed", err));
+      setPlayedAudio(true);
+    }
+
     if (elapsed < 19.9) {
       mesh.rotation.y += 0.03;
-     
     } else {
       mesh.rotation.set(9.8, -0.2, 3.1);
       onDone?.();

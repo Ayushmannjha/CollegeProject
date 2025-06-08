@@ -4,40 +4,72 @@ import logo from './assets/images/maharanaprataplogo.png';
 import rani from './assets/images/ranilakbailogo-removebg-preview.png';
 import shiva from './assets/images/shivaji-logo.png';
 import raja from './assets/images/rajavikramaditya.png';
+
+import video1 from './assets/video/maharanapratap.mp4';
+import video2 from './assets/video/maharanapratap.mp4';
+import video3 from './assets/video/maharanapratap.mp4';
+import video4 from './assets/video/maharanapratap.mp4';
+
 const CenterExplosion = () => {
-  const [animate, setAnimate] = useState(false);
+  const [explode, setExplode] = useState(false);
+  const [selectedBox, setSelectedBox] = useState(null);
 
   useEffect(() => {
-    // Trigger animation once after mount
-    const timer = setTimeout(() => setAnimate(true), 50);
+    const timer = setTimeout(() => setExplode(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
+  const boxData = [
+    { id: 'logo', img: logo, position: 'top-left', video: video1 },
+    { id: 'rani', img: rani, position: 'top-right', video: video2 },
+    { id: 'shiva', img: shiva, position: 'bottom-left', video: video3 },
+    { id: 'raja', img: raja, position: 'bottom-right', video: video4 },
+  ];
+
   return (
     <div className="explosion-overlay">
-      <div
-        className={`box red ${animate ? 'top-left' : ''}`}
-        style={{
-          backgroundImage: `url(${logo})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
-      <div className={`box blue ${animate ? 'top-right' : ''}`}  style={{
-          backgroundImage: `url(${rani})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}/>
-      <div className={`box green ${animate ? 'bottom-left' : ''}`} style={{
-          backgroundImage: `url(${shiva})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}/>
-      <div className={`box yellow ${animate ? 'bottom-right' : ''}`} style={{
-          backgroundImage: `url(${raja})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}/>
+      {boxData.map((box) => {
+        const isSelected = selectedBox === box.id;
+        const hideOthers = selectedBox && selectedBox !== box.id;
+        const explodeClass = explode ? box.position : '';
+
+        return (
+          <div
+            key={box.id}
+            className={`box ${box.id} ${explodeClass} ${isSelected ? 'centered-box' : ''} ${hideOthers ? 'hidden' : ''}`}
+            style={{
+              backgroundImage: isSelected ? 'none' : `url(${box.img})`,
+            }}
+            onClick={() => setSelectedBox(box.id)}
+          >
+            {isSelected && (
+              <>
+                <video
+                  src={box.video}
+                  autoPlay
+                  controls
+                  loop
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '0.5rem',
+                  }}
+                />
+                <button
+                  className="close-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedBox(null);
+                  }}
+                >
+                  ❌
+                </button>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
