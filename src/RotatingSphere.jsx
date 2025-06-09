@@ -36,7 +36,7 @@ const RotatingSphere = ({ onDone }) => {
 
     const elapsed = (Date.now() - startTime) / 1000;
 
-    let targetScale = elapsed < 12.7 ? 0.001 : elapsed < 20 ? 0.5 : 2.0;
+    let targetScale = elapsed < 16.5 ? 0.001 : elapsed < 20 ? 0.5 : 2.0;
     const currentScale = mesh.scale.x;
     const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.02);
     mesh.scale.set(newScale, newScale, newScale);
@@ -47,7 +47,7 @@ const RotatingSphere = ({ onDone }) => {
       setPlayedAudio(true);
     }
 
-    if (elapsed < 19.9) {
+    if (elapsed < 20.5) {
       mesh.rotation.y += 0.03;
     } else {
       mesh.rotation.set(9.8, -0.2, 3.1);

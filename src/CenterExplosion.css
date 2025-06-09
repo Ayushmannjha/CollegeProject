@@ -2,6 +2,8 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #111;
 }
 
 /* Explosion Container */
@@ -14,6 +16,41 @@ body {
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 100;
+}
+
+/* Sub-box section */
+.sub-boxes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.sub-box {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid #888;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: transform 0.25s, background-color 0.25s;
+}
+
+.sub-box:hover {
+  transform: scale(1.08);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Sub-box video container */
+.sub-video {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 /* Box Styles */
@@ -29,13 +66,9 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }
-
-/* Colored Backgrounds (optional if using images only) */
-.red    { background-color: #ff4d4d02; }
-.blue   { background-color: #4d7aff09; }
-.green  { background-color: #4dff8800; }
-.yellow { background-color: #ffe06609; }
 
 /* Explosion directions */
 .top-left {
@@ -51,7 +84,7 @@ body {
   transform: translate(calc(30vw - 50%), calc(30vh - 50%));
 }
 
-/* Zoomed-in box for video */
+/* Zoomed-in box */
 .centered-box {
   width: 60vw !important;
   height: 60vh !important;
@@ -60,6 +93,12 @@ body {
   left: 50% !important;
   z-index: 200;
   position: absolute;
+  background-color: #222;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
 }
 
 /* Hide other boxes */
@@ -69,7 +108,7 @@ body {
   transform: scale(0.5);
 }
 
-/* ❌ Close button */
+/* ❌ Close/Back button */
 .close-btn {
   position: absolute;
   top: -20px;
@@ -79,14 +118,19 @@ body {
   border: none;
   font-size: 20px;
   cursor: pointer;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 50%;
   z-index: 300;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: background 0.3s;
 }
 
-/* Optional tweak for smaller screens */
-@media (max-width: 500px) {
+.close-btn:hover {
+  background-color: #eee;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .top-left {
     transform: translate(calc(-25vw - 50%), calc(-25vh - 50%));
   }
@@ -102,6 +146,11 @@ body {
 
   .centered-box {
     width: 90vw !important;
-    height: 50vh !important;
+    height: 65vh !important;
+  }
+
+  .sub-box {
+    font-size: 12px;
+    padding: 8px 14px;
   }
 }
