@@ -62,8 +62,8 @@ const CenterExplosion = () => {
       position: 'bottom-right',
       video: video1,
       subBoxes: [
-        { label: 'Sub D1', video: mhkh },
-        { label: 'Sub D2', video: chk },
+        { label: 'Maharanapratap Vs Behlol khan', video: mhkh },
+        { label: 'Cheetak bravery', video: chk },
       ],
     },
   ];

@@ -88,7 +88,7 @@ const EarthScene = () => {
 
     const timer = setTimeout(() => {
       setShowExplosion(true);
-    }, 30000);
+    }, 59000);
 
     return () => clearTimeout(timer);
   }, [started, loadingComplete]);
